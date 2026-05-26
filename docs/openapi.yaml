@@ -1,0 +1,165 @@
+openapi: 3.1.0
+info:
+  title: Pulse API
+  version: 1.0.0
+  description: REST API for Pulse productivity OS
+servers:
+  - url: https://api.pulse.app/v1
+    description: Production
+  - url: http://localhost:4000/v1
+    description: Local
+
+tags:
+  - name: Auth
+  - name: Items
+  - name: Calendar
+  - name: AI
+  - name: Assignments
+  - name: Notifications
+  - name: User
+
+paths:
+  /auth/register:
+    post:
+      tags: [Auth]
+      summary: Email/password registration
+  /auth/login:
+    post:
+      tags: [Auth]
+      summary: Login (email or OAuth callback exchange)
+  /auth/oauth/{provider}:
+    get:
+      tags: [Auth]
+      summary: Start OAuth (google | apple)
+  /auth/oauth/{provider}/callback:
+    get:
+      tags: [Auth]
+      summary: OAuth callback
+  /auth/refresh:
+    post:
+      tags: [Auth]
+      summary: Refresh access token
+  /auth/logout:
+    post:
+      tags: [Auth]
+      summary: Revoke refresh token
+
+  /users/me:
+    get:
+      tags: [User]
+      summary: Current user profile + preferences
+    patch:
+      tags: [User]
+      summary: Update profile/preferences
+
+  /items:
+    get:
+      tags: [Items]
+      summary: List items (filter by section, type, status)
+    post:
+      tags: [Items]
+      summary: Create item (supports natural language via ?parse=true)
+  /items/{id}:
+    get:
+      tags: [Items]
+    patch:
+      tags: [Items]
+    delete:
+      tags: [Items]
+  /items/{id}/complete:
+    post:
+      tags: [Items]
+      summary: Mark complete (may require assignment verification)
+  /items/{id}/reorder:
+    patch:
+      tags: [Items]
+      summary: Drag-and-drop ordering
+  /items/sections:
+    get:
+      tags: [Items]
+      summary: Smart sections with grouped items
+
+  /brain-dump:
+    post:
+      tags: [AI]
+      summary: Parse messy text into structured items
+
+  /ai/plan-day:
+    post:
+      tags: [AI]
+      summary: Generate daily plan + focus blocks
+  /ai/panic-mode:
+    post:
+      tags: [AI]
+      summary: Activate panic reorganisation
+  /ai/conversations:
+    get:
+      tags: [AI]
+    post:
+      tags: [AI]
+  /ai/conversations/{id}/messages:
+    post:
+      tags: [AI]
+
+  /calendar/connections:
+    get:
+      tags: [Calendar]
+    post:
+      tags: [Calendar]
+      summary: Connect Google/Outlook (Apple via mobile SDK token)
+  /calendar/connections/{id}/sync:
+    post:
+      tags: [Calendar]
+      summary: Trigger manual sync
+  /calendar/free-slots:
+    get:
+      tags: [Calendar]
+      summary: AI-detected free windows
+
+  /assignments:
+    get:
+      tags: [Assignments]
+    post:
+      tags: [Assignments]
+      summary: Manual assignment (usually imported via LMS sync)
+  /assignments/{id}/submit:
+    post:
+      tags: [Assignments]
+      summary: Upload work for AI verification
+  /assignments/{id}/verify:
+    post:
+      tags: [Assignments]
+      summary: Run AI rubric check
+  /lms/connect/{provider}:
+    post:
+      tags: [Assignments]
+      summary: Connect Classroom, Teams, Canvas, etc.
+  /lms/sync:
+    post:
+      tags: [Assignments]
+      summary: Pull assignments + announcements
+
+  /notifications:
+    get:
+      tags: [Notifications]
+  /notifications/{id}/acknowledge:
+    post:
+      tags: [Notifications]
+
+  /focus/sessions:
+    post:
+      tags: [User]
+      summary: Start focus timer session
+  /dashboard:
+    get:
+      tags: [User]
+      summary: Score, streaks, widgets, daily summary
+
+components:
+  securitySchemes:
+    bearerAuth:
+      type: http
+      scheme: bearer
+      bearerFormat: JWT
+  security:
+    - bearerAuth: []

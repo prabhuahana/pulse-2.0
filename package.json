@@ -1,0 +1,12 @@
+{
+  "name": "pulse",
+  "private": true,
+  "scripts": {
+    "dev": "npm run dev --prefix apps/web",
+    "build": "npm run build --prefix apps/web",
+    "install:web": "npm install --prefix apps/web"
+  },
+  "dependencies": {
+    "@google/generative-ai": "^0.24.1"
+  }
+}

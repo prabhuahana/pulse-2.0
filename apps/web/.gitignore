@@ -1,0 +1,7 @@
+node_modules
+.next
+out
+.env*.local
+data/panic/uploads/
+data/panic/unlock/
+data/panic/sessions/
