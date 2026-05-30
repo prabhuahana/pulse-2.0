@@ -11,8 +11,10 @@ export function ThemeProvider({ children }: { children: React.ReactNode }) {
   const customTheme = useStiloStore((s) => s.customTheme);
   const { highContrast, reducedMotion } = useAccessibility();
   const tokens: ThemeTokens =
-    theme === "custom" && customTheme ? customTheme : (THEMES[theme as any] ?? THEMES.beige);
-
+    theme === "custom" && customTheme
+      ? customTheme
+      : (THEMES[theme as keyof typeof THEMES] ?? THEMES.beige);
+    
   useEffect(() => {
     const root = document.documentElement;
     root.style.setProperty("--bg", tokens.bg);
