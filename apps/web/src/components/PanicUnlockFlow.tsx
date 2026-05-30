@@ -13,7 +13,7 @@ import {
 import Link from "next/link";
 import { useRouter } from "next/navigation";
 import type { SafetyContact } from "@/types/panic-mode";
-import { usePulseStore } from "@/store/usePulseStore";
+import { useStiloStore } from "@/store/useStiloStore";
 
 type Step = "contacts" | "code";
 type SendStatus = "idle" | "sending" | "sent" | "failed";

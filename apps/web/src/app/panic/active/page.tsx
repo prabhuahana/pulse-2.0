@@ -8,9 +8,9 @@ import { PanicImageTask } from "@/components/panic/PanicImageTask";
 import { PanicInteractionTask } from "@/components/panic/PanicInteractionTask";
 import { PanicUnlockSection } from "@/components/panic/PanicUnlockSection";
 import { PanicWakeTask } from "@/components/panic/PanicWakeTask";
-import { usePulseUserId } from "@/hooks/usePulseUserId";
+import { useStiloUserId } from "@/hooks/useStiloUserId";
 import { getPanicRemainingSeconds, usePanicStore } from "@/store/usePanicStore";
-import { usePulseStore } from "@/store/usePulseStore";
+import { useStiloStore } from "@/store/useStiloStore";
 
 function formatTime(seconds: number): string {
   const m = Math.floor(seconds / 60);
@@ -20,9 +20,9 @@ function formatTime(seconds: number): string {
 
 export default function PanicActivePage() {
   const router = useRouter();
-  const userId = usePulseUserId();
-  const userName = usePulseStore((s) => s.userName);
-  const endPanicMode = usePulseStore((s) => s.endPanicMode);
+  const userId = useStiloUserId();
+  const userName = useStiloStore((s) => s.userName);
+  const endPanicMode = useStiloStore((s) => s.endPanicMode);
 
   const hydrated = usePanicStore((s) => s.hydrated);
   const isActive = usePanicStore((s) => s.isActive);
@@ -141,7 +141,7 @@ export default function PanicActivePage() {
 
       <PanicUnlockSection
         userId={userId}
-        userName={userName || "Pulse user"}
+        userName={userName || "Stilo user"}
         onSessionEnd={handleSessionEnd}
         earlyExit={!tasksComplete}
       />

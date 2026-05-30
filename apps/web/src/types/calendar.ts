@@ -2,7 +2,7 @@ import type { CalendarProvider } from "@/lib/core";
 
 export type CalendarEventSource = "local" | CalendarProvider;
 
-export interface PulseCalendarEvent {
+export interface StiloCalendarEvent {
   id: string;
   title: string;
   description?: string;

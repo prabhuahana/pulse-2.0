@@ -1,4 +1,4 @@
-import { createItem, reprioritiseItem, type PulseItem } from "@/lib/core";
+import { createItem, reprioritiseItem, type StiloItem } from "@/lib/core";
 import { fetchAppleEvents } from "@/lib/calendar/apple";
 import { fetchGoogleEvents, refreshGoogleToken } from "@/lib/calendar/google";
 import { fetchMicrosoftEvents, refreshMicrosoftToken } from "@/lib/calendar/microsoft";
@@ -14,7 +14,7 @@ export function calendarItemId(
   return `cal-${provider}-${externalId}`;
 }
 
-export function syncedEventToItem(event: SyncedCalendarEvent): PulseItem {
+export function syncedEventToItem(event: SyncedCalendarEvent): StiloItem {
   const start = new Date(event.startAt);
   const end = new Date(event.endAt);
   const durationMin = Math.max(
@@ -46,9 +46,9 @@ export function syncedEventToItem(event: SyncedCalendarEvent): PulseItem {
 }
 
 export function mergeCalendarIntoItems(
-  existing: PulseItem[],
+  existing: StiloItem[],
   synced: SyncedCalendarEvent[]
-): PulseItem[] {
+): StiloItem[] {
   const syncedIds = new Set(
     synced.map((e) => calendarItemId(e.provider, e.externalId))
   );

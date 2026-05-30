@@ -125,7 +125,7 @@ export const useAlarmStore = create<AlarmState>()(
       clearActiveRing: () => set({ activeRing: null }),
     }),
     {
-      name: "pulse-alarms-v1",
+      name: "stilo-alarms-v1",
       storage: createJSONStorage(() => localStorage),
     }
   )

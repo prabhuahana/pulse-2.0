@@ -2,7 +2,7 @@
 
 import { useEffect, useState } from "react";
 import { THEMES } from "@/lib/themes";
-import { usePulseStore } from "@/store/usePulseStore";
+import { useStiloStore } from "@/store/useStiloStore";
 import type { ThemePreset } from "@/lib/core";
 import { Calendar, ChevronRight, RotateCcw, Palette, AlertTriangle } from "lucide-react";
 import Link from "next/link";
@@ -12,10 +12,12 @@ import { ThemeSettings } from "@/components/ThemeSettingsPanel";
 import { PanicModeSettings } from "@/components/PanicModeSettings";
 import { generateThemeFromColor } from "@/lib/themes-enhanced";
 import { useAccessibility } from "@/components/AccessibilityProvider";
+import { CalendarConnections } from "@/components/CalendarConnections";
 
 export default function SettingsPage() {
-  const theme = usePulseStore((s) => s.theme);
-  const setTheme = usePulseStore((s) => s.setTheme);
+  const theme = useStiloStore((s) => s.theme);
+  const setTheme = useStiloStore((s) => s.setTheme);
+  const setCustomTheme = useStiloStore((s) => s.setCustomTheme);
   const {
     fontMode,
     highContrast,
@@ -25,12 +27,12 @@ export default function SettingsPage() {
     setReducedMotion,
   } = useAccessibility();
   const dyslexiaFont = fontMode === "dyslexia";
-  const resetDemoData = usePulseStore((s) => s.resetDemoData);
-  const panicMode = usePulseStore((s) => s.panicMode);
-  const safetyContacts = usePulseStore((s) => s.safetyContacts);
-  const panicDurationMinutes = usePulseStore((s) => s.panicDurationMinutes);
-  const setSafetyContacts = usePulseStore((s) => s.setSafetyContacts);
-  const setPanicDurationMinutes = usePulseStore((s) => s.setPanicDurationMinutes);
+  const resetDemoData = useStiloStore((s) => s.resetDemoData);
+  const panicMode = useStiloStore((s) => s.panicMode);
+  const safetyContacts = useStiloStore((s) => s.safetyContacts);
+  const panicDurationMinutes = useStiloStore((s) => s.panicDurationMinutes);
+  const setSafetyContacts = useStiloStore((s) => s.setSafetyContacts);
+  const setPanicDurationMinutes = useStiloStore((s) => s.setPanicDurationMinutes);
 
   const [activeTab, setActiveTab] = useState("basic");
   const [customThemeColor, setCustomThemeColor] = useState(
@@ -53,10 +55,13 @@ export default function SettingsPage() {
       setCustomThemeColor(hex);
       const themeTokens = generateThemeFromColor(hex, isDarkMode);
       if (themeTokens) {
+        setCustomTheme(themeTokens);
+        setTheme("custom");
         localStorage.setItem("customThemeColor", hex);
       }
     } else if (selectedTheme !== "custom") {
       setTheme(selectedTheme);
+      setCustomTheme(null);
       localStorage.removeItem("customThemeColor");
     }
   };
@@ -70,7 +75,7 @@ export default function SettingsPage() {
     <div className="space-y-8">
       <header>
         <h1 className="font-display text-2xl font-bold">Settings</h1>
-        <p className="text-sm text-[var(--text-muted)]">Make Pulse yours</p>
+        <p className="text-sm text-[var(--text-muted)]">Make Stilo yours</p>
       </header>
 
       <Tabs value={activeTab} onValueChange={setActiveTab}>
@@ -117,6 +122,15 @@ export default function SettingsPage() {
               </div>
               <ChevronRight size={18} className="text-[var(--text-muted)]" />
             </Link>
+          </section>
+
+          <section className="space-y-3">
+            <h2 className="text-sm font-semibold uppercase tracking-wide text-[var(--text-muted)]">
+              Calendar sync
+            </h2>
+            <div className="rounded-pulse-lg border border-[var(--border)] bg-[var(--surface)] p-4">
+              <CalendarConnections />
+            </div>
           </section>
 
           <section className="space-y-3">
@@ -171,7 +185,7 @@ export default function SettingsPage() {
           </section>
 
           <p className="text-center text-xs text-[var(--text-muted)]">
-            Pulse v0.1 · Local-first demo
+            Stilo v0.1 · Local-first demo
           </p>
         </TabsContent>
 

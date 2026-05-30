@@ -30,7 +30,7 @@ export async function verifyTaskImage(params: {
   const openai = new OpenAI({ apiKey });
   const dataUrl = `data:${params.mimeType};base64,${params.imageBase64}`;
 
-  const system = `You are a supportive safety assistant for a mental health app called Pulse.
+  const system = `You are a supportive safety assistant for a mental health app called Stilo.
 Evaluate whether the user's photo satisfies the panic-mode recovery task.
 Respond ONLY with valid JSON matching this schema:
 {"verified":boolean,"uncertain":boolean,"failed":boolean,"confidence":number,"message":string}

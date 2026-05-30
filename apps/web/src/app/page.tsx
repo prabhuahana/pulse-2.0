@@ -1,14 +1,14 @@
 "use client";
 
 import { useHydrated } from "@/hooks/useHydrated";
-import { usePulseStore } from "@/store/usePulseStore";
+import { useStiloStore } from "@/store/useStiloStore";
 import { useRouter } from "next/navigation";
 import { useEffect } from "react";
 
 export default function RootPage() {
   const router = useRouter();
   const hydrated = useHydrated();
-  const onboardingDone = usePulseStore((s) => s.onboardingDone);
+  const onboardingDone = useStiloStore((s) => s.onboardingDone);
 
   useEffect(() => {
     if (!hydrated) return;

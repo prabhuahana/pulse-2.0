@@ -79,7 +79,7 @@ export function showAlarmNotification(label: string): void {
   if (typeof window === "undefined" || !("Notification" in window)) return;
   if (Notification.permission !== "granted") return;
   try {
-    new Notification("Pulse Alarm", {
+    new Notification("Stilo Alarm", {
       body: label,
       tag: "pulse-alarm",
       requireInteraction: true,

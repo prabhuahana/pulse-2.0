@@ -2,12 +2,12 @@ import { createCipheriv, createDecipheriv, randomBytes, scryptSync } from "crypt
 
 function getKey(): Buffer {
   const secret = process.env.SESSION_SECRET;
-  if (!secret || secret === "pulse-dev-secret-change-me") {
+  if (!secret || secret === "stilo-dev-secret-change-me") {
     throw new Error(
       "A strong SESSION_SECRET is required to store Apple Calendar credentials securely. Set SESSION_SECRET in .env.local."
     );
   }
-  return scryptSync(secret, "pulse-salt", 32);
+  return scryptSync(secret, "stilo-salt", 32);
 }
 
 export function encryptSecret(plain: string): string {

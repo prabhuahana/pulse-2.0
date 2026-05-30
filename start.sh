@@ -12,5 +12,5 @@ echo "Installing dependencies..."
 npm install
 
 echo ""
-echo "Starting Pulse at http://localhost:3000"
+echo "Starting Stilo at http://localhost:3000"
 npm run dev

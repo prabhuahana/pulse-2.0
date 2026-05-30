@@ -25,7 +25,7 @@
 │                     State Management                             │
 ├─────────────────────────────────────────────────────────────────┤
 │                                                                   │
-│         Zustand Store (usePulseStore)                           │
+│         Zustand Store (useStiloStore)                           │
 │  ┌─────────────────────────────────────────────────────────┐   │
 │  │ • theme: ThemePreset | "custom"                         │   │
 │  │ • customThemeColor: string                              │   │
@@ -337,7 +337,7 @@ User Triggers Panic Mode
          ▼
 ┌─────────────────────────────────┐
 │  Update Zustand Store           │
-│  usePulseStore.setState(...)    │
+│  useStiloStore.setState(...)    │
 └────────┬────────────────────────┘
          │
          ├─────┬──────────┐

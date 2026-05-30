@@ -12,9 +12,9 @@ import { ItemCard } from "@/components/ItemCard";
 import { QuickCapture } from "@/components/QuickCapture";
 import { SectionBlock } from "@/components/SectionBlock";
 import { activatePanicSession } from "@/lib/panic/startSession";
-import { usePulseUserId } from "@/hooks/usePulseUserId";
+import { useStiloUserId } from "@/hooks/useStiloUserId";
 import { usePanicStore } from "@/store/usePanicStore";
-import { usePulseStore } from "@/store/usePulseStore";
+import { useStiloStore } from "@/store/useStiloStore";
 import { groupBySection } from "@/lib/core";
 import { motion } from "framer-motion";
 import { AlertTriangle, Loader2 } from "lucide-react";
@@ -23,10 +23,10 @@ import { useState } from "react";
 
 export default function HomePage() {
   const router = useRouter();
-  const userId = usePulseUserId();
-  const items = usePulseStore((s) => s.items);
+  const userId = useStiloUserId();
+  const items = useStiloStore((s) => s.items);
   const panicActive = usePanicStore((s) => s.isActive);
-  const safetyContacts = usePulseStore((s) => s.safetyContacts);
+  const safetyContacts = useStiloStore((s) => s.safetyContacts);
   const cooldownUntil = usePanicStore((s) => s.cooldownUntil);
   const [starting, setStarting] = useState(false);
   const [error, setError] = useState<string | null>(null);

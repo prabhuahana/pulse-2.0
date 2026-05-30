@@ -3,20 +3,20 @@
 import { COLOR_STYLES } from "@/lib/themes";
 import { formatDue } from "@/lib/utils";
 import { usePanicStore } from "@/store/usePanicStore";
-import { usePulseStore } from "@/store/usePulseStore";
-import type { ColorTag, PulseItem } from "@/lib/core";
+import { useStiloStore } from "@/store/useStiloStore";
+import type { ColorTag, StiloItem } from "@/lib/core";
 import { motion, AnimatePresence } from "framer-motion";
 import { Check, Clock, Trash2 } from "lucide-react";
 
 interface ItemCardProps {
-  item: PulseItem;
+  item: StiloItem;
   compact?: boolean;
 }
 
 export function ItemCard({ item, compact }: ItemCardProps) {
-  const toggleComplete = usePulseStore((s) => s.toggleComplete);
-  const deleteItem = usePulseStore((s) => s.deleteItem);
-  const reducedMotion = usePulseStore((s) => s.reducedMotion);
+  const toggleComplete = useStiloStore((s) => s.toggleComplete);
+  const deleteItem = useStiloStore((s) => s.deleteItem);
+  const reducedMotion = useStiloStore((s) => s.reducedMotion);
   const panicActive = usePanicStore((s) => s.isActive);
   const colors = COLOR_STYLES[item.colorTag as ColorTag] ?? COLOR_STYLES.yellow;
   const done = item.status === "completed";
@@ -101,7 +101,7 @@ export function ItemCard({ item, compact }: ItemCardProps) {
         )}
         {blocked && (
           <p className="mt-2 rounded-xl bg-red-50 px-3 py-2 text-xs text-red-700">
-            Proof required before Pulse will mark this assignment complete.
+            Proof required before Stilo will mark this assignment complete.
           </p>
         )}
       </div>

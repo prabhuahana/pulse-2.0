@@ -3,7 +3,7 @@ export function AccessibilityInitScript() {
   const script = `
 (function() {
   try {
-    var raw = localStorage.getItem('pulse-storage-v1');
+    var raw = localStorage.getItem('stilo-storage-v1');
     if (!raw) return;
     var parsed = JSON.parse(raw);
     var state = parsed && parsed.state;

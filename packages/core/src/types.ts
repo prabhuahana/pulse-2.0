@@ -32,7 +32,7 @@ export type ThemePreset =
   | "anime"
   | "neon";
 
-export interface PulseItem {
+export interface StiloItem {
   id: string;
   type: ItemType;
   title: string;

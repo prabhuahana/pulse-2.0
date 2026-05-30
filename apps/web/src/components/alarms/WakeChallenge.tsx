@@ -9,13 +9,94 @@ interface WakeChallengeProps {
 }
 
 function MathChallenge({ onSuccess }: { onSuccess: () => void }) {
-  const puzzle = useMemo(() => {
-    const a = Math.floor(Math.random() * 12) + 3;
-    const b = Math.floor(Math.random() * 12) + 3;
-    const op = Math.random() > 0.5 ? "+" : "×";
-    const answer = op === "+" ? a + b : a * b;
-    return { text: `${a} ${op} ${b} = ?`, answer };
-  }, []);
+  function generateExpression() {
+    const numCount = Math.floor(Math.random() * 3) + 3; // 3..5 numbers
+    const nums = Array.from({ length: numCount }, () =>
+      Math.floor(Math.random() * 14) + 2
+    );
+    const operators = Array.from({ length: numCount - 1 }, () => {
+      const ops = ["+", "-", "*", "/"];
+      return ops[Math.floor(Math.random() * ops.length)];
+    });
+
+    // build tokens interleaved
+    let tokens: string[] = [];
+    for (let i = 0; i < numCount; i++) {
+      tokens.push(String(nums[i]));
+      if (i < operators.length) tokens.push(operators[i]);
+    }
+
+    // randomly add one pair of parentheses to increase BODMAS complexity
+    if (operators.length >= 2 && Math.random() > 0.4) {
+      const start = Math.floor(Math.random() * (operators.length - 0));
+      const end = Math.min(
+        start + 1 + Math.floor(Math.random() * (operators.length - start)),
+        operators.length
+      );
+      // parentheses around numbers from start..end (inclusive)
+      const leftIndex = start * 2; // token index
+      const rightIndex = end * 2; // token index
+      tokens.splice(leftIndex, 0, "(");
+      tokens.splice(rightIndex + 2, 0, ")");
+    }
+
+    const expr = tokens.join(" ");
+
+    const evaluate = (tokens: string[]) => {
+      const prec: Record<string, number> = { "+": 1, "-": 1, "*": 2, "/": 2 };
+
+      // shunting-yard to RPN
+      const output: string[] = [];
+      const opsStack: string[] = [];
+
+      for (const t of tokens) {
+        if (!isNaN(Number(t))) {
+          output.push(t);
+        } else if (t === "(") {
+          opsStack.push(t);
+        } else if (t === ")") {
+          while (opsStack.length && opsStack[opsStack.length - 1] !== "(") {
+            output.push(opsStack.pop()!);
+          }
+          opsStack.pop();
+        } else {
+          while (
+            opsStack.length &&
+            opsStack[opsStack.length - 1] !== "(" &&
+            prec[opsStack[opsStack.length - 1]] >= prec[t]
+          ) {
+            output.push(opsStack.pop()!);
+          }
+          opsStack.push(t);
+        }
+      }
+      while (opsStack.length) output.push(opsStack.pop()!);
+
+      // evaluate RPN
+      const stack: number[] = [];
+      for (const tok of output) {
+        if (!isNaN(Number(tok))) stack.push(Number(tok));
+        else {
+          const b = stack.pop()!;
+          const a = stack.pop()!;
+          let res = 0;
+          if (tok === "+") res = a + b;
+          else if (tok === "-") res = a - b;
+          else if (tok === "*") res = a * b;
+          else if (tok === "/") res = b === 0 ? a : a / b;
+          stack.push(res);
+        }
+      }
+      return stack[0];
+    };
+
+    const answer = evaluate(tokens);
+    // show * as × and / as ÷ for readability
+    const text = expr.replace(/\*/g, "×").replace(/\//g, "÷") + " = ?";
+    return { text, answer };
+  }
+
+  const puzzle = useMemo(() => generateExpression(), []);
 
   const [value, setValue] = useState("");
   const [wrong, setWrong] = useState(false);
@@ -23,9 +104,12 @@ function MathChallenge({ onSuccess }: { onSuccess: () => void }) {
   return (
     <div className="space-y-3">
       <p className="text-center text-3xl font-bold">{puzzle.text}</p>
+      <p className="text-center text-sm text-[var(--text-muted)]">
+        Use order of operations (BODMAS). For divisions, round to two decimals.
+      </p>
       <input
-        type="number"
-        inputMode="numeric"
+        type="text"
+        inputMode="decimal"
         value={value}
         onChange={(e) => {
           setValue(e.target.value);
@@ -41,8 +125,14 @@ function MathChallenge({ onSuccess }: { onSuccess: () => void }) {
       <button
         type="button"
         onClick={() => {
-          if (Number(value) === puzzle.answer) onSuccess();
-          else setWrong(true);
+          const num = Number(value);
+          if (!isNaN(num)) {
+            const correct = Math.abs(num - puzzle.answer) < 0.02;
+            if (correct) onSuccess();
+            else setWrong(true);
+          } else {
+            setWrong(true);
+          }
         }}
         className="w-full rounded-pulse-lg bg-[var(--accent)] py-3 font-semibold text-[var(--bg)]"
       >

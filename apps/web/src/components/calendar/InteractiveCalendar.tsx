@@ -12,15 +12,15 @@ import type {
   EventInput,
 } from "@fullcalendar/core";
 import { CalendarEventModal } from "@/components/calendar/CalendarEventModal";
-import { usePulseStore } from "@/store/usePulseStore";
-import type { PulseCalendarEvent } from "@/types/calendar";
+import { useStiloStore } from "@/store/useStiloStore";
+import type { StiloCalendarEvent } from "@/types/calendar";
 
-function eventClassNames(event: PulseCalendarEvent): string[] {
+function eventClassNames(event: StiloCalendarEvent): string[] {
   if (event.source === "local") return ["fc-event-local"];
   return [`fc-event-${event.source}`];
 }
 
-function toFullCalendarEvent(event: PulseCalendarEvent): EventInput {
+function toFullCalendarEvent(event: StiloCalendarEvent): EventInput {
   return {
     id: event.id,
     title: event.title,
@@ -33,11 +33,11 @@ function toFullCalendarEvent(event: PulseCalendarEvent): EventInput {
 }
 
 export function InteractiveCalendar() {
-  const synced = usePulseStore((s) => s.syncedCalendarEvents);
-  const local = usePulseStore((s) => s.localCalendarEvents);
-  const addLocal = usePulseStore((s) => s.addLocalCalendarEvent);
-  const updateLocal = usePulseStore((s) => s.updateLocalCalendarEvent);
-  const deleteEvent = usePulseStore((s) => s.deleteCalendarEvent);
+  const synced = useStiloStore((s) => s.syncedCalendarEvents);
+  const local = useStiloStore((s) => s.localCalendarEvents);
+  const addLocal = useStiloStore((s) => s.addLocalCalendarEvent);
+  const updateLocal = useStiloStore((s) => s.updateLocalCalendarEvent);
+  const deleteEvent = useStiloStore((s) => s.deleteCalendarEvent);
 
   const allEvents = useMemo(
     () => [...synced, ...local],
@@ -51,7 +51,7 @@ export function InteractiveCalendar() {
   const [modalMode, setModalMode] = useState<"create" | "edit" | "view">(
     "create"
   );
-  const [selected, setSelected] = useState<PulseCalendarEvent | null>(null);
+  const [selected, setSelected] = useState<StiloCalendarEvent | null>(null);
   const [defaultStart, setDefaultStart] = useState<Date | undefined>();
 
   const fcEvents = useMemo(
@@ -66,7 +66,7 @@ export function InteractiveCalendar() {
     setModalOpen(true);
   }, []);
 
-  const openView = useCallback((event: PulseCalendarEvent) => {
+  const openView = useCallback((event: StiloCalendarEvent) => {
     setSelected(event);
     setDefaultStart(undefined);
     setModalMode(event.source === "local" ? "edit" : "view");
@@ -83,7 +83,7 @@ export function InteractiveCalendar() {
   const handleEventClick = useCallback(
     (info: EventClickArg) => {
       const pulseEvent = info.event.extendedProps.pulseEvent as
-        | PulseCalendarEvent
+        | StiloCalendarEvent
         | undefined;
       if (pulseEvent) openView(pulseEvent);
     },
@@ -93,7 +93,7 @@ export function InteractiveCalendar() {
   const handleEventDrop = useCallback(
     (info: EventDropArg) => {
       const pulseEvent = info.event.extendedProps.pulseEvent as
-        | PulseCalendarEvent
+        | StiloCalendarEvent
         | undefined;
       if (!pulseEvent || pulseEvent.source !== "local") {
         info.revert();
@@ -167,7 +167,7 @@ export function InteractiveCalendar() {
           eventDrop={handleEventDrop}
           eventResize={(info) => {
             const pulseEvent = info.event.extendedProps.pulseEvent as
-              | PulseCalendarEvent
+              | StiloCalendarEvent
               | undefined;
             if (!pulseEvent || pulseEvent.source !== "local") {
               info.revert();

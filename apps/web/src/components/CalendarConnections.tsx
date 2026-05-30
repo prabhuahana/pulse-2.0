@@ -1,6 +1,6 @@
 "use client";
 
-import { usePulseStore } from "@/store/usePulseStore";
+import { useStiloStore } from "@/store/useStiloStore";
 import type { CalendarConnectionStatus } from "@/lib/calendar/types";
 import type { SyncedCalendarEvent } from "@/lib/calendar/types";
 import type { FreeSlot } from "@/lib/calendar/types";
@@ -52,10 +52,10 @@ function MicrosoftIcon() {
 }
 
 export function CalendarConnections({ compact }: { compact?: boolean }) {
-  const mergeCalendarEvents = usePulseStore((s) => s.mergeCalendarEvents);
-  const setCalendarStatus = usePulseStore((s) => s.setCalendarStatus);
-  const calendarStatus = usePulseStore((s) => s.calendarStatus);
-  const lastSyncAt = usePulseStore((s) => s.lastSyncAt);
+  const mergeCalendarEvents = useStiloStore((s) => s.mergeCalendarEvents);
+  const setCalendarStatus = useStiloStore((s) => s.setCalendarStatus);
+  const calendarStatus = useStiloStore((s) => s.calendarStatus);
+  const lastSyncAt = useStiloStore((s) => s.lastSyncAt);
 
   const [status, setStatus] = useState<
     (CalendarConnectionStatus & {

@@ -1,5 +1,5 @@
 import { usePanicStore } from "@/store/usePanicStore";
-import { usePulseStore } from "@/store/usePulseStore";
+import { useStiloStore } from "@/store/useStiloStore";
 
 export async function activatePanicSession(params: {
   userId: string;
@@ -7,7 +7,7 @@ export async function activatePanicSession(params: {
 }): Promise<string> {
   const durationMinutes =
     params.durationMinutes ??
-    usePulseStore.getState().panicDurationMinutes ??
+    useStiloStore.getState().panicDurationMinutes ??
     30;
   const sessionId = `panic-${Date.now()}`;
 
@@ -31,7 +31,7 @@ export async function activatePanicSession(params: {
     durationMinutes,
   });
 
-  usePulseStore.setState({
+  useStiloStore.setState({
     panicMode: true,
     panicSessionId: sessionId,
     panicDurationMinutes: durationMinutes,
@@ -42,5 +42,5 @@ export async function activatePanicSession(params: {
 
 export function endPanicSessionFully(): void {
   usePanicStore.getState().endSession();
-  usePulseStore.getState().endPanicMode();
+  useStiloStore.getState().endPanicMode();
 }

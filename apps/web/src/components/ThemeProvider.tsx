@@ -2,13 +2,16 @@
 
 import { THEMES } from "@/lib/themes";
 import { useAccessibility } from "@/components/AccessibilityProvider";
-import { usePulseStore } from "@/store/usePulseStore";
+import { useStiloStore } from "@/store/useStiloStore";
 import { useEffect } from "react";
+import type { ThemeTokens } from "@/lib/themes-enhanced";
 
 export function ThemeProvider({ children }: { children: React.ReactNode }) {
-  const theme = usePulseStore((s) => s.theme);
+  const theme = useStiloStore((s) => s.theme);
+  const customTheme = useStiloStore((s) => s.customTheme);
   const { highContrast, reducedMotion } = useAccessibility();
-  const tokens = THEMES[theme] ?? THEMES.beige;
+  const tokens: ThemeTokens =
+    theme === "custom" && customTheme ? customTheme : (THEMES[theme as any] ?? THEMES.beige);
 
   useEffect(() => {
     const root = document.documentElement;

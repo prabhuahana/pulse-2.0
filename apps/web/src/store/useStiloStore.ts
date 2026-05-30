@@ -6,23 +6,25 @@ import {
   parseNaturalLanguage,
   reprioritiseItem,
   SAMPLE_ITEMS,
-  type PulseItem,
+  type StiloItem,
   type ThemePreset,
 } from "@/lib/core";
-import { createLocalEvent, syncedToPulseEvent } from "@/lib/calendar/event-mapper";
+import { createLocalEvent, syncedToStiloEvent } from "@/lib/calendar/event-mapper";
 import { mergeCalendarIntoItems } from "@/lib/calendar/sync";
 import type {
   CalendarConnectionStatus,
   SyncedCalendarEvent,
 } from "@/lib/calendar/types";
 import type { SafetyContact } from "@/types/panic-mode";
-import type { CreateCalendarEventInput, PulseCalendarEvent } from "@/types/calendar";
+import type { CreateCalendarEventInput, StiloCalendarEvent } from "@/types/calendar";
 import { create } from "zustand";
 import { createJSONStorage, persist } from "zustand/middleware";
+import type { ThemeTokens } from "@/lib/themes-enhanced";
 
-interface PulseState {
-  items: PulseItem[];
-  theme: ThemePreset;
+interface StiloState {
+  items: StiloItem[];
+  theme: ThemePreset | "custom";
+  customTheme?: ThemeTokens | null;
   dyslexiaFont: boolean;
   highContrast: boolean;
   reducedMotion: boolean;
@@ -44,27 +46,28 @@ interface PulseState {
   >;
   calendarStatus: CalendarConnectionStatus | null;
   lastSyncAt: string | null;
-  syncedCalendarEvents: PulseCalendarEvent[];
-  localCalendarEvents: PulseCalendarEvent[];
+  syncedCalendarEvents: StiloCalendarEvent[];
+  localCalendarEvents: StiloCalendarEvent[];
   calendarSyncError: string | null;
   calendarSyncing: boolean;
 
   completeOnboarding: (name: string) => void;
-  setTheme: (theme: ThemePreset) => void;
+  setTheme: (theme: ThemePreset | "custom") => void;
+  setCustomTheme: (theme: ThemeTokens | null) => void;
   setAccessibility: (opts: {
     dyslexiaFont?: boolean;
     highContrast?: boolean;
     reducedMotion?: boolean;
   }) => void;
   addItemFromInput: (input: string) => void;
-  addItem: (item: Partial<PulseItem> & { title: string }) => void;
-  importAssignment: (item: Partial<PulseItem> & { title: string }) => void;
+  addItem: (item: Partial<StiloItem> & { title: string }) => void;
+  importAssignment: (item: Partial<StiloItem> & { title: string }) => void;
   verifyAssignment: (id: string) => void;
   requestRevision: (id: string) => void;
   rescheduleWorkload: () => void;
   toggleComplete: (id: string) => void;
   deleteItem: (id: string) => void;
-  connectAutomationProvider: (provider: keyof PulseState["automationStatus"]) => void;
+  connectAutomationProvider: (provider: keyof StiloState["automationStatus"]) => void;
   setAutomationMode: (mode: "standard" | "accountability" | "no_escape") => void;
   togglePanicMode: () => void;
   startPanicMode: (durationMinutes?: number) => void;
@@ -77,12 +80,13 @@ interface PulseState {
   startFocus: (minutes?: number) => void;
   tickFocus: () => void;
   stopFocus: () => void;
+  nurturePet: (amount: number) => void;
   resetDemoData: () => void;
   mergeCalendarEvents: (events: SyncedCalendarEvent[]) => void;
   setCalendarStatus: (status: CalendarConnectionStatus) => void;
   setCalendarSyncing: (syncing: boolean) => void;
   setCalendarSyncError: (error: string | null) => void;
-  addLocalCalendarEvent: (input: CreateCalendarEventInput) => PulseCalendarEvent;
+  addLocalCalendarEvent: (input: CreateCalendarEventInput) => StiloCalendarEvent;
   updateLocalCalendarEvent: (
     id: string,
     patch: Partial<CreateCalendarEventInput>
@@ -91,15 +95,16 @@ interface PulseState {
   deleteCalendarEvent: (id: string) => void;
 }
 
-function seedItems(): PulseItem[] {
+function seedItems(): StiloItem[] {
   return SAMPLE_ITEMS.map((s) => createItem(s));
 }
 
-export const usePulseStore = create<PulseState>()(
+export const useStiloStore = create<StiloState>()(
   persist(
     (set, get) => ({
       items: seedItems(),
       theme: "beige",
+      customTheme: null,
       dyslexiaFont: false,
       highContrast: false,
       reducedMotion: false,
@@ -134,6 +139,8 @@ export const usePulseStore = create<PulseState>()(
         set({ onboardingDone: true, userName: name || "there" }),
 
       setTheme: (theme) => set({ theme }),
+
+      setCustomTheme: (customTheme) => set({ customTheme }),
 
       setAccessibility: (opts) => set(opts),
 
@@ -184,7 +191,7 @@ export const usePulseStore = create<PulseState>()(
                     submissionVerified: true,
                     revisionRequired: false,
                     aiFeedback: [
-                      "Submission verified by Pulse.",
+                      "Submission verified by Stilo.",
                       ...(item.metadata?.aiFeedback ?? []),
                     ],
                   },
@@ -342,6 +349,12 @@ export const usePulseStore = create<PulseState>()(
 
       stopFocus: () => set({ focusSecondsLeft: null, focusRunning: false }),
 
+      nurturePet: (amount) =>
+        set((s) => ({
+          xp: s.xp + Math.round(amount * 5),
+          petStage: Math.min(10, s.petStage + amount),
+        })),
+
       resetDemoData: () => set({ items: seedItems() }),
 
       connectAutomationProvider: (provider) =>
@@ -357,7 +370,7 @@ export const usePulseStore = create<PulseState>()(
       mergeCalendarEvents: (events) =>
         set((s) => ({
           items: mergeCalendarIntoItems(s.items, events),
-          syncedCalendarEvents: events.map(syncedToPulseEvent),
+          syncedCalendarEvents: events.map(syncedToStiloEvent),
           lastSyncAt: new Date().toISOString(),
           calendarSyncError: null,
         })),
@@ -415,11 +428,12 @@ export const usePulseStore = create<PulseState>()(
       },
     }),
     {
-      name: "pulse-storage-v1",
+      name: "stilo-storage-v1",
       storage: createJSONStorage(() => localStorage),
       partialize: (s) => ({
         items: s.items,
         theme: s.theme,
+          customTheme: s.customTheme,
         dyslexiaFont: s.dyslexiaFont,
         highContrast: s.highContrast,
         reducedMotion: s.reducedMotion,
@@ -441,12 +455,12 @@ export const usePulseStore = create<PulseState>()(
 );
 
 export function useDailySummary() {
-  const items = usePulseStore((s) => s.items);
+  const items = useStiloStore((s) => s.items);
   return buildDailySummary(items);
 }
 
 export function useProductivityScore() {
-  const items = usePulseStore((s) => s.items);
+  const items = useStiloStore((s) => s.items);
   const active = items.filter((i) => i.status !== "completed");
   const completed = items.filter((i) => i.status === "completed").length;
   const overdue = active.filter((i) => i.smartSection === "Overdue").length;

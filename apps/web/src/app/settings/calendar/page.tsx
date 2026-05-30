@@ -16,7 +16,7 @@ export default function CalendarSettingsPage() {
         </Link>
         <h1 className="font-display text-2xl font-bold">Calendar accounts</h1>
         <p className="mt-1 text-sm text-[var(--text-muted)]">
-          Connect Google, Outlook, and Apple Calendar. Events sync into Pulse automatically.
+          Connect Google, Outlook, and Apple Calendar. Events sync into Stilo automatically.
         </p>
       </header>
 

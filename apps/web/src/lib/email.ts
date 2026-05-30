@@ -7,7 +7,7 @@ export function getEmailFromAddress(): string {
     process.env.RESEND_FROM_EMAIL?.trim();
   if (!from) {
     throw new Error(
-      "EMAIL_FROM is not configured (e.g. Pulse <notifications@yourdomain.com>)."
+      "EMAIL_FROM is not configured (e.g. Stilo <notifications@yourdomain.com>)."
     );
   }
   return from;

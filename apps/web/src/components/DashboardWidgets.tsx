@@ -4,16 +4,17 @@ import { formatFocusTime, greeting } from "@/lib/utils";
 import {
   useDailySummary,
   useProductivityScore,
-  usePulseStore,
-} from "@/store/usePulseStore";
+  useStiloStore,
+} from "@/store/useStiloStore";
 import { motion } from "framer-motion";
 import { Flame, Quote, Sun, Timer, Zap } from "lucide-react";
 import Link from "next/link";
+import { useState } from "react";
 
 export function GreetingHeader() {
-  const userName = usePulseStore((s) => s.userName);
+  const userName = useStiloStore((s) => s.userName);
   const summary = useDailySummary();
-  const panicMode = usePulseStore((s) => s.panicMode);
+  const panicMode = useStiloStore((s) => s.panicMode);
 
   return (
     <header className="space-y-3">
@@ -43,8 +44,8 @@ export function GreetingHeader() {
 
 export function ScoreAndStreak() {
   const score = useProductivityScore();
-  const streak = usePulseStore((s) => s.streak);
-  const xp = usePulseStore((s) => s.xp);
+  const streak = useStiloStore((s) => s.streak);
+  const xp = useStiloStore((s) => s.xp);
 
   return (
     <div className="flex items-center gap-4">
@@ -80,29 +81,89 @@ export function ScoreAndStreak() {
 }
 
 export function VirtualPetWidget() {
-  const petStage = usePulseStore((s) => s.petStage);
+  const petStage = useStiloStore((s) => s.petStage);
+  const nurturePet = useStiloStore((s) => s.nurturePet);
+  const [gameProgress, setGameProgress] = useState(0);
+  const [status, setStatus] = useState("Tap the plant to help it grow.");
+
   const stages = ["🌱", "🪴", "🌿", "🌸", "🌳"];
   const emoji = stages[Math.min(Math.floor(petStage), stages.length - 1)];
+  const stageLabel = ["Seedling", "Potted sprout", "Leafy sprout", "Blossom", "Tree"][
+    Math.min(Math.floor(petStage), stages.length - 1)
+  ];
+  const nextLevelProgress = Math.min(5, gameProgress);
+  const progressPercent = Math.round((nextLevelProgress / 5) * 100);
+
+  const handleAction = (action: string, amount: number) => {
+    setGameProgress((prev) => {
+      const next = Math.min(5, prev + amount);
+      if (next === 5) {
+        nurturePet(0.4);
+        setStatus("Growth burst! Your sprout has grown stronger. Keep playing to level it up again.");
+        return 0;
+      }
+      setStatus(
+        `${action} applied! ${next}/5 growth points. ${next === 4 ? "One more to bloom!" : "Keep going."}`
+      );
+      return next;
+    });
+  };
 
   return (
-    <div className="flex flex-col items-center justify-center rounded-pulse-lg border border-[var(--border)] bg-[var(--surface)] p-4 backdrop-blur-md">
-      <span className="text-4xl" role="img" aria-label="Virtual plant">
-        {emoji}
-      </span>
-      <p className="mt-2 text-xs font-medium text-[var(--text-muted)]">Sprout is growing</p>
-      <div className="mt-2 h-1.5 w-full overflow-hidden rounded-full bg-[var(--border)]">
+    <div className="rounded-pulse-lg border border-[var(--border)] bg-[var(--surface)] p-4 backdrop-blur-md">
+      <div className="flex items-center justify-between">
+        <div>
+          <p className="text-xs font-semibold uppercase tracking-[0.2em] text-[var(--text-muted)]">
+            Sprout game
+          </p>
+          <p className="mt-1 text-sm font-semibold">{stageLabel}</p>
+        </div>
+        <span className="text-4xl" role="img" aria-label="Virtual plant">
+          {emoji}
+        </span>
+      </div>
+
+      <div className="mt-4 rounded-2xl border border-[var(--border)] bg-[var(--background)] p-3 text-center text-xs text-[var(--text-muted)]">
+        {status}
+      </div>
+
+      <div className="mt-3 h-2.5 overflow-hidden rounded-full bg-[var(--border)]">
         <div
-          className="h-full rounded-full bg-[var(--accent)] transition-all"
-          style={{ width: `${Math.min(100, petStage * 10)}%` }}
+          className="h-full rounded-full bg-[var(--accent)] transition-all duration-300"
+          style={{ width: `${progressPercent}%` }}
         />
       </div>
+      <p className="mt-2 text-xs text-right text-[var(--text-muted)]">
+        {progressPercent}% to the next growth burst
+      </p>
+
+      <div className="mt-3 grid grid-cols-2 gap-2">
+        <button
+          type="button"
+          onClick={() => handleAction("Water", 1)}
+          className="rounded-pulse-lg border border-[var(--border)] bg-blue-500/10 px-3 py-2 text-sm font-medium text-blue-600 transition hover:bg-blue-500/15"
+        >
+          💧 Water
+        </button>
+        <button
+          type="button"
+          onClick={() => handleAction("Sunlight", 1)}
+          className="rounded-pulse-lg border border-[var(--border)] bg-amber-500/10 px-3 py-2 text-sm font-medium text-amber-600 transition hover:bg-amber-500/15"
+        >
+          ☀️ Sun
+        </button>
+      </div>
+
+      <p className="mt-3 text-xs text-[var(--text-muted)]">
+        Tap the buttons to earn growth points and level up your plant. Every bloom earns XP!
+      </p>
     </div>
   );
 }
 
 export function FocusWidget() {
-  const focusSecondsLeft = usePulseStore((s) => s.focusSecondsLeft);
-  const focusRunning = usePulseStore((s) => s.focusRunning);
+  const focusSecondsLeft = useStiloStore((s) => s.focusSecondsLeft);
+  const focusRunning = useStiloStore((s) => s.focusRunning);
 
   return (
     <Link

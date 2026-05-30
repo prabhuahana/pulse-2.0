@@ -2,13 +2,13 @@
 
 import { useEffect, useState } from "react";
 import { X } from "lucide-react";
-import type { PulseCalendarEvent } from "@/types/calendar";
+import type { StiloCalendarEvent } from "@/types/calendar";
 import type { CreateCalendarEventInput } from "@/types/calendar";
 
 interface CalendarEventModalProps {
   open: boolean;
   mode: "create" | "edit" | "view";
-  initial?: PulseCalendarEvent | null;
+  initial?: StiloCalendarEvent | null;
   defaultStart?: Date;
   onClose: () => void;
   onSave: (input: CreateCalendarEventInput) => void;

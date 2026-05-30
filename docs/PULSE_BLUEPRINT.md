@@ -1,6 +1,6 @@
-# Pulse — Complete Product & Technical Blueprint
+# Stilo — Complete Product & Technical Blueprint
 
-> **Working title:** Pulse (rename anytime)  
+> **Working title:** Stilo (rename anytime)  
 > **Positioning:** A calming, intelligent life operating system — not another stressful todo list.
 
 ---
@@ -290,12 +290,12 @@ AssignmentScreen
 
 | Component | Variants |
 |-----------|----------|
-| `PulseCard` | elevated, glass, flat |
-| `PulseButton` | primary, ghost, danger, focus |
-| `PulseChip` | urgency colours |
-| `PulseSection` | collapsible smart section |
-| `PulseTimeline` | horizontal day rail |
-| `PulseKanban` | columns = sections or custom |
+| `StiloCard` | elevated, glass, flat |
+| `StiloButton` | primary, ghost, danger, focus |
+| `StiloChip` | urgency colours |
+| `StiloSection` | collapsible smart section |
+| `StiloTimeline` | horizontal day rail |
+| `StiloKanban` | columns = sections or custom |
 | `CompletionBurst` | Lottie confetti / pet reaction |
 | `AccessibilityToggle` | dyslexia font, high contrast |
 
@@ -754,7 +754,7 @@ Scale: 12 / 14 / 16 / 20 / 24 / 32 / 40 (fluid `clamp` on web)
 - Daily summary (limited)
 - Pet + streaks
 
-### **Pulse Plus** (~$6.99/mo or $49/yr)
+### **Stilo Plus** (~$6.99/mo or $49/yr)
 
 - Unlimited calendar + LMS connections
 - Full AI: plan day, panic mode, brain dump
@@ -763,13 +763,13 @@ Scale: 12 / 14 / 16 / 20 / 24 / 32 / 40 (fluid `clamp` on web)
 - Escalation reminders + focus blocking
 - Weekly insights PDF
 
-### **Pulse Family / Study** (~$11.99/mo)
+### **Stilo Family / Study** (~$11.99/mo)
 
 - Shared spaces (up to 6)
 - Accountability mode
 - Group study timers
 
-### **Pulse School** (B2B, per seat)
+### **Stilo School** (B2B, per seat)
 
 - District SSO, admin analytics, no ads, FERPA DPA
 
@@ -914,4 +914,4 @@ flowchart TB
 
 ---
 
-*This blueprint is the source of truth for Pulse v1. Iterate in `docs/` as decisions solidify.*
+*This blueprint is the source of truth for Stilo v1. Iterate in `docs/` as decisions solidify.*

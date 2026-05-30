@@ -1,16 +1,16 @@
 # Implementation Guide: Settings & Safety System
 
-This guide walks you through integrating the new settings and safety features into your Pulse app.
+This guide walks you through integrating the new settings and safety features into your Stilo app.
 
 ## Quick Start (15 minutes)
 
 ### Step 1: Update Your Store
 
-Your `usePulseStore` already has `panicMode` and `theme` state. Make sure it includes these actions:
+Your `useStiloStore` already has `panicMode` and `theme` state. Make sure it includes these actions:
 
 ```typescript
-// In usePulseStore.ts, ensure you have:
-interface PulseState {
+// In useStiloStore.ts, ensure you have:
+interface StiloState {
   theme: ThemePreset | "custom";
   customThemeColor?: string;
   customThemeDark?: boolean;
@@ -38,8 +38,8 @@ Update your `AppShell.tsx` to include the Panic Mode overlay:
 import { PanicModeOverlay } from "@/components/PanicModeOverlay";
 
 export function AppShell({ children }: { children: React.ReactNode }) {
-  const panicMode = usePulseStore((s) => s.panicMode);
-  const togglePanicMode = usePulseStore((s) => s.togglePanicMode);
+  const panicMode = useStiloStore((s) => s.panicMode);
+  const togglePanicMode = useStiloStore((s) => s.togglePanicMode);
 
   return (
     <>
@@ -80,11 +80,11 @@ Visit `/settings` and click the "Themes" tab to test the color picker.
 "use client";
 
 import { PanicModeActivator } from "@/components/PanicModeActivator";
-import { usePulseStore } from "@/store/usePulseStore";
+import { useStiloStore } from "@/store/useStiloStore";
 
 export function DashboardWidget() {
-  const panicMode = usePulseStore((s) => s.panicMode);
-  const togglePanicMode = usePulseStore((s) => s.togglePanicMode);
+  const panicMode = useStiloStore((s) => s.panicMode);
+  const togglePanicMode = useStiloStore((s) => s.togglePanicMode);
 
   return (
     <PanicModeActivator
@@ -130,7 +130,7 @@ export function ActivitySection() {
 "use client";
 
 import { generateThemeFromColor } from "@/lib/themes-enhanced";
-import { usePulseStore } from "@/store/usePulseStore";
+import { useStiloStore } from "@/store/useStiloStore";
 
 export function ApplyCustomTheme() {
   useEffect(() => {

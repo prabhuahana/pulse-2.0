@@ -38,7 +38,7 @@ export async function POST(req: NextRequest) {
       userId,
       contactName,
       contactEmail,
-      userName: userName || "Pulse user",
+      userName: userName || "Stilo user",
     });
 
     return NextResponse.json({

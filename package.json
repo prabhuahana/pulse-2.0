@@ -1,5 +1,5 @@
 {
-  "name": "pulse",
+  "name": "stilo",
   "private": true,
   "scripts": {
     "dev": "npm run dev --prefix apps/web",

@@ -20,10 +20,14 @@ const dmSans = DM_Sans({
 });
 
 export const metadata: Metadata = {
-  title: "Pulse — Calm productivity",
+  title: "Stilo — Calm productivity",
   description:
     "Organise tasks, deadlines, and focus time with intelligent, calming automation.",
-  appleWebApp: { capable: true, title: "Pulse" },
+  appleWebApp: { capable: true, title: "Stilo" },
+  icons: {
+    icon: "/favicon.ico",
+    apple: "/apple-touch-icon.png",
+  },
 };
 
 export const viewport: Viewport = {

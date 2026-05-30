@@ -220,7 +220,7 @@ export const usePanicStore = create<PanicStore>()(
         PANIC_ALLOWED_PATHS.some((p) => pathname.startsWith(p)),
     }),
     {
-      name: "pulse-panic-v1",
+      name: "stilo-panic-v1",
       storage: createJSONStorage(() => localStorage),
       partialize: (s) => ({
         isActive: s.isActive,

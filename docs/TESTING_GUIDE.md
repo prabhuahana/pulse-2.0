@@ -498,8 +498,8 @@ localStorage.getItem('customThemeDarkMode')  // "false"
 localStorage.removeItem('customThemeColor')
 
 // Check Zustand store
-import { usePulseStore } from "@/store/usePulseStore"
-const store = usePulseStore.getState()
+import { useStiloStore } from "@/store/useStiloStore"
+const store = useStiloStore.getState()
 console.log(store.theme)        // Current theme
 console.log(store.panicMode)    // Panic mode status
 ```

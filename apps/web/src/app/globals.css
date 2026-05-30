@@ -32,13 +32,14 @@ html[data-dyslexia="true"] {
   --font-ui: var(--font-opendyslexic);
   --font-dm: var(--font-opendyslexic);
   --font-sans: var(--font-opendyslexic);
+  --font-inter: var(--font-opendyslexic);
 }
 
 body {
   background: var(--gradient);
   background-attachment: fixed;
   min-height: 100dvh;
-  font-family: var(--font-ui);
+  font-family: var(--font-sans);
   transition: var(--font-transition);
 }
 

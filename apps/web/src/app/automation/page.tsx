@@ -2,7 +2,7 @@
 
 import Link from "next/link";
 import { useMemo } from "react";
-import { usePulseStore } from "@/store/usePulseStore";
+import { useStiloStore } from "@/store/useStiloStore";
 import type { AutomationProvider } from "@/lib/core";
 import { ArrowLeft, BookOpen, CheckCircle2, Clock3, ShieldCheck, Sparkles, Zap } from "lucide-react";
 
@@ -21,7 +21,7 @@ const PROVIDER_LABELS: Record<AutomationProvider, { label: string; description: 
   },
   moodle: {
     label: "Moodle",
-    description: "Homework, quizzes and study guides imported into Pulse.",
+    description: "Homework, quizzes and study guides imported into Stilo.",
   },
   notion: {
     label: "Notion",
@@ -34,25 +34,25 @@ const PROVIDER_LABELS: Record<AutomationProvider, { label: string; description: 
 };
 
 export default function AutomationPage() {
-  const items = usePulseStore((s) => s.items);
+  const items = useStiloStore((s) => s.items);
   const assignments = useMemo(
     () => items.filter((item) => item.type === "assignment" || item.tags.includes("school")),
     [items]
   );
-  const automationStatus = usePulseStore((s) => s.automationStatus);
-  const automationMode = usePulseStore((s) => s.automationMode);
-  const connectAutomationProvider = usePulseStore((s) => s.connectAutomationProvider);
-  const setAutomationMode = usePulseStore((s) => s.setAutomationMode);
-  const importAssignment = usePulseStore((s) => s.importAssignment);
-  const verifyAssignment = usePulseStore((s) => s.verifyAssignment);
-  const requestRevision = usePulseStore((s) => s.requestRevision);
-  const rescheduleWorkload = usePulseStore((s) => s.rescheduleWorkload);
+  const automationStatus = useStiloStore((s) => s.automationStatus);
+  const automationMode = useStiloStore((s) => s.automationMode);
+  const connectAutomationProvider = useStiloStore((s) => s.connectAutomationProvider);
+  const setAutomationMode = useStiloStore((s) => s.setAutomationMode);
+  const importAssignment = useStiloStore((s) => s.importAssignment);
+  const verifyAssignment = useStiloStore((s) => s.verifyAssignment);
+  const requestRevision = useStiloStore((s) => s.requestRevision);
+  const rescheduleWorkload = useStiloStore((s) => s.rescheduleWorkload);
 
   const importSample = () => {
     importAssignment({
       title: "Biology report on ecosystems",
       description:
-        "Capture evidence, answer all rubric points, and upload work inside Pulse.",
+        "Capture evidence, answer all rubric points, and upload work inside Stilo.",
       dueAt: new Date(Date.now() + 2 * 24 * 60 * 60 * 1000).toISOString(),
       estimatedMinutes: 90,
       tags: ["school", "biology"],
@@ -156,7 +156,7 @@ export default function AutomationPage() {
             <div>
               <p className="font-medium">Import test assignment</p>
               <p className="mt-1 text-xs text-[var(--text-muted)]">
-                Add a sample assignment so Pulse can demonstrate safe tracking and revision logic.
+                Add a sample assignment so Stilo can demonstrate safe tracking and revision logic.
               </p>
             </div>
           </div>
@@ -172,7 +172,7 @@ export default function AutomationPage() {
             <div>
               <p className="font-medium">Auto reschedule work</p>
               <p className="mt-1 text-xs text-[var(--text-muted)]">
-                When deadlines pile up, Pulse shifts lower-priority tasks to free space for urgent work.
+                When deadlines pile up, Stilo shifts lower-priority tasks to free space for urgent work.
               </p>
             </div>
           </div>
@@ -185,7 +185,7 @@ export default function AutomationPage() {
           <h2 className="font-semibold">Submission protection</h2>
         </div>
         <p className="text-sm text-[var(--text-muted)]">
-          Tasks with assignment verification require proof inside Pulse before they can be marked complete.
+          Tasks with assignment verification require proof inside Stilo before they can be marked complete.
           This protects against fake completion and keeps the focus on work that is actually done.
         </p>
       </section>
@@ -275,7 +275,7 @@ export default function AutomationPage() {
       <footer className="rounded-pulse-lg border border-[var(--border)] bg-[var(--surface)] p-4 text-sm text-[var(--text-muted)]">
         <p className="font-medium">Note</p>
         <p className="mt-2">
-          Pulse is designed for local-first automation and safe tracking. Real integrations are stubbed,
+          Stilo is designed for local-first automation and safe tracking. Real integrations are stubbed,
           but this page creates a reliable workflow for assignment import, verification, and revision.
         </p>
       </footer>

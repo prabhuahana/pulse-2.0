@@ -9,7 +9,7 @@ import {
   useState,
   type ReactNode,
 } from "react";
-import { usePulseStore } from "@/store/usePulseStore";
+import { useStiloStore } from "@/store/useStiloStore";
 import { useHydrated } from "@/hooks/useHydrated";
 
 export type FontMode = "standard" | "dyslexia";
@@ -30,10 +30,10 @@ const AccessibilityContext = createContext<AccessibilityContextValue | null>(
 
 export function AccessibilityProvider({ children }: { children: ReactNode }) {
   const hydrated = useHydrated();
-  const dyslexiaFont = usePulseStore((s) => s.dyslexiaFont);
-  const highContrast = usePulseStore((s) => s.highContrast);
-  const reducedMotion = usePulseStore((s) => s.reducedMotion);
-  const setAccessibility = usePulseStore((s) => s.setAccessibility);
+  const dyslexiaFont = useStiloStore((s) => s.dyslexiaFont);
+  const highContrast = useStiloStore((s) => s.highContrast);
+  const reducedMotion = useStiloStore((s) => s.reducedMotion);
+  const setAccessibility = useStiloStore((s) => s.setAccessibility);
 
   const fontMode: FontMode = dyslexiaFont ? "dyslexia" : "standard";
 

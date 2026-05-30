@@ -473,7 +473,7 @@ import { Tabs, TabsContent, TabsList, TabsTrigger } from "@/components/ui/Tabs";
 import type { SafetyContact, PanicModeSession, UnlockRequest, ActivityLogEntry } from "@/types/panic-mode";
 
 // Store
-import { usePulseStore } from "@/store/usePulseStore";
+import { useStiloStore } from "@/store/useStiloStore";
 ```
 
 ---
@@ -516,7 +516,7 @@ root.style.setProperty("--bg", "#FFE8E8");
 ## 🔗 Related Files
 
 - Settings page: `src/app/settings/page.tsx`
-- Store: `src/store/usePulseStore.ts`
+- Store: `src/store/useStiloStore.ts`
 - Theme provider: `src/components/ThemeProvider.tsx`
 - Globals CSS: `src/app/globals.css`
 - Tailwind config: `tailwind.config.ts`

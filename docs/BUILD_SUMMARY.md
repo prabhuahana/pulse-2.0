@@ -2,7 +2,7 @@
 
 ## 📋 Overview
 
-A comprehensive settings and safety system has been built for your Pulse productivity/mental health app featuring:
+A comprehensive settings and safety system has been built for your Stilo productivity/mental health app featuring:
 1. **Dynamic Hex Color Theme Picker** with automatic shade generation
 2. **Panic Mode** - an advanced distraction-blocking safety feature with trusted contact approval system
 

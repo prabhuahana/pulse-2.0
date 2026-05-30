@@ -1,11 +1,11 @@
 "use client";
 
-import { usePulseStore } from "@/store/usePulseStore";
+import { useStiloStore } from "@/store/useStiloStore";
 import { Sparkles } from "lucide-react";
 import { useState, FormEvent } from "react";
 
 export function QuickCapture() {
-  const addItemFromInput = usePulseStore((s) => s.addItemFromInput);
+  const addItemFromInput = useStiloStore((s) => s.addItemFromInput);
   const [value, setValue] = useState("");
 
   function handleSubmit(e: FormEvent) {

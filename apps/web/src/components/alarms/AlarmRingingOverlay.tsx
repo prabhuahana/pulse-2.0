@@ -51,16 +51,7 @@ export function AlarmRingingOverlay({
           <WakeChallenge type={wakeChallengeType} onSuccess={onDismissed} />
         </div>
 
-        {snoozesLeft > 0 && (
-          <button
-            type="button"
-            onClick={onSnooze}
-            className="inline-flex items-center gap-2 rounded-pulse-lg border border-[var(--border)] px-6 py-3 text-sm font-medium"
-          >
-            <Moon className="h-4 w-4" />
-            Snooze ({snoozesLeft} left)
-          </button>
-        )}
+        {/* Snooze disabled per user preference */}
       </div>
 
       <p className="text-center text-xs text-[var(--text-muted)]">

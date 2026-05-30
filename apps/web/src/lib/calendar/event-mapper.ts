@@ -1,7 +1,7 @@
 import type { SyncedCalendarEvent } from "@/lib/calendar/types";
-import type { PulseCalendarEvent } from "@/types/calendar";
+import type { StiloCalendarEvent } from "@/types/calendar";
 
-export function syncedToPulseEvent(event: SyncedCalendarEvent): PulseCalendarEvent {
+export function syncedToStiloEvent(event: SyncedCalendarEvent): StiloCalendarEvent {
   const now = new Date().toISOString();
   return {
     id: `cal-${event.provider}-${event.externalId}`,
@@ -23,12 +23,12 @@ export function syncedToPulseEvent(event: SyncedCalendarEvent): PulseCalendarEve
 }
 
 export function createLocalEvent(
-  input: Omit<PulseCalendarEvent, "id" | "source" | "createdAt" | "updatedAt"> & {
+  input: Omit<StiloCalendarEvent, "id" | "source" | "createdAt" | "updatedAt"> & {
     title: string;
     startAt: string;
     endAt: string;
   }
-): PulseCalendarEvent {
+): StiloCalendarEvent {
   const now = new Date().toISOString();
   return {
     ...input,

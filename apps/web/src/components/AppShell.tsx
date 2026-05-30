@@ -4,7 +4,7 @@ import { BottomNav } from "@/components/BottomNav";
 import { PanicModeGuard } from "@/components/panic/PanicModeGuard";
 import { useHydrated } from "@/hooks/useHydrated";
 import { usePanicStore } from "@/store/usePanicStore";
-import { usePulseStore } from "@/store/usePulseStore";
+import { useStiloStore } from "@/store/useStiloStore";
 import { usePathname, useRouter } from "next/navigation";
 import { useEffect } from "react";
 
@@ -14,7 +14,7 @@ export function AppShell({ children }: { children: React.ReactNode }) {
   const pathname = usePathname();
   const router = useRouter();
   const hydrated = useHydrated();
-  const onboardingDone = usePulseStore((s) => s.onboardingDone);
+  const onboardingDone = useStiloStore((s) => s.onboardingDone);
   const panicActive = usePanicStore((s) => s.isActive);
   const showNav =
     !PUBLIC_PATHS.includes(pathname) && !pathname.startsWith("/panic/");

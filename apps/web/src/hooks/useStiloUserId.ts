@@ -2,9 +2,9 @@
 
 import { useEffect, useState } from "react";
 
-const STORAGE_KEY = "pulseUserId";
+const STORAGE_KEY = "stiloUserId";
 
-export function usePulseUserId(): string {
+export function useStiloUserId(): string {
   const [userId, setUserId] = useState("demo-user");
 
   useEffect(() => {

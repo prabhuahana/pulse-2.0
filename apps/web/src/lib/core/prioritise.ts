@@ -2,7 +2,7 @@ import type {
   ColorTag,
   ItemType,
   PrioritisationResult,
-  PulseItem,
+  StiloItem,
   SmartSection,
 } from "./types";
 
@@ -13,7 +13,7 @@ export interface PrioritiseInput {
   estimatedMinutes?: number;
   tags?: string[];
   pinned?: boolean;
-  status?: PulseItem["status"];
+  status?: StiloItem["status"];
 }
 
 function hoursUntil(iso?: string): number | null {
@@ -107,7 +107,7 @@ function assignSection(ctx: {
 }
 
 function assignColor(ctx: {
-  status?: PulseItem["status"];
+  status?: StiloItem["status"];
   isOverdue: boolean;
   urgencyScore: number;
   importanceScore: number;
@@ -124,7 +124,7 @@ function assignColor(ctx: {
   return "yellow";
 }
 
-export function reprioritiseItem(item: PulseItem): PulseItem {
+export function reprioritiseItem(item: StiloItem): StiloItem {
   const scores = prioritiseItem({
     type: item.type,
     title: item.title,
@@ -150,10 +150,10 @@ export const SECTION_ORDER: SmartSection[] = [
   "Can Wait",
 ];
 
-export function groupBySection(items: PulseItem[]): Record<SmartSection, PulseItem[]> {
+export function groupBySection(items: StiloItem[]): Record<SmartSection, StiloItem[]> {
   const groups = Object.fromEntries(
-    SECTION_ORDER.map((s) => [s, [] as PulseItem[]])
-  ) as Record<SmartSection, PulseItem[]>;
+    SECTION_ORDER.map((s) => [s, [] as StiloItem[]])
+  ) as Record<SmartSection, StiloItem[]>;
 
   for (const item of items) {
     if (item.status === "completed") continue;
@@ -169,7 +169,7 @@ export function groupBySection(items: PulseItem[]): Record<SmartSection, PulseIt
   return groups;
 }
 
-export function buildDailySummary(items: PulseItem[]): {
+export function buildDailySummary(items: StiloItem[]): {
   urgentCount: number;
   meetingCount: number;
   overdueCount: number;
@@ -263,8 +263,8 @@ function generateId(): string {
 }
 
 export function createItem(
-  partial: Partial<PulseItem> & { title: string }
-): PulseItem {
+  partial: Partial<StiloItem> & { title: string }
+): StiloItem {
   const now = new Date().toISOString();
   const base: PrioritiseInput = {
     type: partial.type ?? "task",
@@ -297,7 +297,7 @@ export function createItem(
   };
 }
 
-export const SAMPLE_ITEMS: Omit<PulseItem, "id" | "createdAt" | "updatedAt">[] = [
+export const SAMPLE_ITEMS: Omit<StiloItem, "id" | "createdAt" | "updatedAt">[] = [
   {
     type: "deadline",
     title: "Chemistry lab report",

@@ -1,8 +1,8 @@
-# Pulse Settings & Safety System Documentation
+# Stilo Settings & Safety System Documentation
 
 ## Overview
 
-This document describes the modern settings and safety system for the Pulse productivity/mental health web app, featuring a dynamic hex color theme picker and a comprehensive Panic Mode safety system.
+This document describes the modern settings and safety system for the Stilo productivity/mental health web app, featuring a dynamic hex color theme picker and a comprehensive Panic Mode safety system.
 
 ## Features
 

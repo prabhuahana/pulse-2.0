@@ -178,9 +178,9 @@ const darker = darken("#FF6B6B", 20);    // Darker shade
 
 ### Activate from Code
 ```typescript
-import { usePulseStore } from "@/store/usePulseStore";
+import { useStiloStore } from "@/store/useStiloStore";
 
-const { togglePanicMode } = usePulseStore();
+const { togglePanicMode } = useStiloStore();
 
 // Start panic mode
 togglePanicMode();
@@ -254,8 +254,8 @@ import { lighten, darken, createThemeColor } from "@/lib/colors"
 createThemeColor("#FF6B6B")
 
 // Check Zustand store
-import { usePulseStore } from "@/store/usePulseStore"
-usePulseStore.getState()
+import { useStiloStore } from "@/store/useStiloStore"
+useStiloStore.getState()
 
 // Check CSS variables
 getComputedStyle(document.documentElement).getPropertyValue('--accent')
@@ -367,7 +367,7 @@ Before going to production:
 **Quick Reference:**
 ```
 Settings URL: http://localhost:3000/settings
-Store: usePulseStore()
+Store: useStiloStore()
 Color functions: @/lib/colors
 Theme functions: @/lib/themes-enhanced
 Type definitions: @/types/panic-mode
@@ -386,10 +386,10 @@ togglePanicMode();
 logActivity("PANIC_START", {durationMinutes: 30});
 
 // Get current theme
-const currentTheme = usePulseStore((s) => s.theme);
+const currentTheme = useStiloStore((s) => s.theme);
 
 // Check safety contacts
-const contacts = usePulseStore((s) => s.safetyContacts);
+const contacts = useStiloStore((s) => s.safetyContacts);
 ```
 
 ---

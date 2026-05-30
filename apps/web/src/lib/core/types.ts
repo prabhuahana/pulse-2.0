@@ -46,7 +46,7 @@ export type AutomationProvider =
   | "notion"
   | "schoolEmail";
 
-export interface PulseItemMetadata {
+export interface StiloItemMetadata {
   calendarProvider?: CalendarProvider;
   externalEventId?: string;
   calendarId?: string;
@@ -62,7 +62,7 @@ export interface PulseItemMetadata {
   origin?: string;
 }
 
-export interface PulseItem {
+export interface StiloItem {
   id: string;
   type: ItemType;
   title: string;
@@ -81,7 +81,7 @@ export interface PulseItem {
   colorTag: ColorTag;
   tags: string[];
   pinned: boolean;
-  metadata?: PulseItemMetadata;
+  metadata?: StiloItemMetadata;
   createdAt: string;
   updatedAt: string;
 }

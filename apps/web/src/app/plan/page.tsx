@@ -3,14 +3,14 @@
 import { ItemCard } from "@/components/ItemCard";
 import { QuickCapture } from "@/components/QuickCapture";
 import { SectionBlock } from "@/components/SectionBlock";
-import { usePulseStore } from "@/store/usePulseStore";
-import { groupBySection, SECTION_ORDER, type SmartSection, type PulseItem } from "@/lib/core";
+import { useStiloStore } from "@/store/useStiloStore";
+import { groupBySection, SECTION_ORDER, type SmartSection, type StiloItem } from "@/lib/core";
 import { useState } from "react";
 
 type ViewMode = "sections" | "list" | "timeline" | "completed";
 
 export default function PlanPage() {
-  const items = usePulseStore((s) => s.items);
+  const items = useStiloStore((s) => s.items);
   const [view, setView] = useState<ViewMode>("timeline");
 
   const active = items.filter((i) => i.status !== "completed");
@@ -86,7 +86,7 @@ export default function PlanPage() {
   );
 }
 
-function TimelineView({ items }: { items: PulseItem[] }) {
+function TimelineView({ items }: { items: StiloItem[] }) {
   if (items.length === 0) {
     return (
       <div className="rounded-pulse-lg border border-[var(--border)] bg-[var(--surface)] p-6 text-center text-sm text-[var(--text-muted)]">

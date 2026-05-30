@@ -1,13 +1,13 @@
 "use client";
 
 import { useCallback } from "react";
-import { usePulseStore } from "@/store/usePulseStore";
+import { useStiloStore } from "@/store/useStiloStore";
 
 export function useCalendarSync() {
-  const mergeCalendarEvents = usePulseStore((s) => s.mergeCalendarEvents);
-  const setCalendarStatus = usePulseStore((s) => s.setCalendarStatus);
-  const setCalendarSyncing = usePulseStore((s) => s.setCalendarSyncing);
-  const setCalendarSyncError = usePulseStore((s) => s.setCalendarSyncError);
+  const mergeCalendarEvents = useStiloStore((s) => s.mergeCalendarEvents);
+  const setCalendarStatus = useStiloStore((s) => s.setCalendarStatus);
+  const setCalendarSyncing = useStiloStore((s) => s.setCalendarSyncing);
+  const setCalendarSyncError = useStiloStore((s) => s.setCalendarSyncError);
 
   const syncCalendars = useCallback(async (): Promise<boolean> => {
     setCalendarSyncing(true);
@@ -22,7 +22,7 @@ export function useCalendarSync() {
         setCalendarSyncError(message);
         if (data.code === "AUTH_EXPIRED" && data.provider === "google") {
           setCalendarStatus({
-            ...(usePulseStore.getState().calendarStatus ?? {
+            ...(useStiloStore.getState().calendarStatus ?? {
               google: false,
               microsoft: false,
               apple: false,

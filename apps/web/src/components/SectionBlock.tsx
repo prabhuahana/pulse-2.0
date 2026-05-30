@@ -1,12 +1,12 @@
 "use client";
 
 import { ItemCard } from "@/components/ItemCard";
-import type { PulseItem, SmartSection } from "@/lib/core";
+import type { StiloItem, SmartSection } from "@/lib/core";
 import { AnimatePresence } from "framer-motion";
 
 interface SectionBlockProps {
   title: SmartSection;
-  items: PulseItem[];
+  items: StiloItem[];
   defaultOpen?: boolean;
 }
 

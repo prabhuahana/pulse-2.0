@@ -1,18 +1,18 @@
 "use client";
 
 import { formatFocusTime } from "@/lib/utils";
-import { usePulseStore } from "@/store/usePulseStore";
+import { useStiloStore } from "@/store/useStiloStore";
 import { motion } from "framer-motion";
 import { Pause, Play, Square } from "lucide-react";
 import { useEffect } from "react";
 
 export function FocusTimer() {
-  const focusSecondsLeft = usePulseStore((s) => s.focusSecondsLeft);
-  const focusRunning = usePulseStore((s) => s.focusRunning);
-  const startFocus = usePulseStore((s) => s.startFocus);
-  const tickFocus = usePulseStore((s) => s.tickFocus);
-  const stopFocus = usePulseStore((s) => s.stopFocus);
-  const reducedMotion = usePulseStore((s) => s.reducedMotion);
+  const focusSecondsLeft = useStiloStore((s) => s.focusSecondsLeft);
+  const focusRunning = useStiloStore((s) => s.focusRunning);
+  const startFocus = useStiloStore((s) => s.startFocus);
+  const tickFocus = useStiloStore((s) => s.tickFocus);
+  const stopFocus = useStiloStore((s) => s.stopFocus);
+  const reducedMotion = useStiloStore((s) => s.reducedMotion);
 
   useEffect(() => {
     if (!focusRunning) return;
@@ -76,7 +76,7 @@ export function FocusTimer() {
           <>
             <button
               type="button"
-              onClick={() => usePulseStore.setState({ focusRunning: false })}
+              onClick={() => useStiloStore.setState({ focusRunning: false })}
               className="flex items-center gap-2 rounded-pulse-lg border border-[var(--border)] px-5 py-3"
             >
               <Pause size={18} /> Pause

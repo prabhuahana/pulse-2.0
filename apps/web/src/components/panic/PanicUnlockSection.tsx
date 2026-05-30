@@ -3,7 +3,7 @@
 import { useState } from "react";
 import { CheckCircle2, Loader2, Mail, XCircle } from "lucide-react";
 import { usePanicStore } from "@/store/usePanicStore";
-import { usePulseStore } from "@/store/usePulseStore";
+import { useStiloStore } from "@/store/useStiloStore";
 import type { SafetyContact } from "@/types/panic-mode";
 
 type SendStatus = "idle" | "sending" | "sent" | "failed";
@@ -26,7 +26,7 @@ export function PanicUnlockSection({
   const canExitWithContact = usePanicStore((s) => s.canExitWithContact);
   const setUnlockRequestId = usePanicStore((s) => s.setUnlockRequestId);
   const setSelectedContact = usePanicStore((s) => s.setSelectedContact);
-  const safetyContacts = usePulseStore((s) => s.safetyContacts);
+  const safetyContacts = useStiloStore((s) => s.safetyContacts);
 
   const [step, setStep] = useState<"contact" | "code">("contact");
   const [contact, setContact] = useState<SafetyContact | null>(null);

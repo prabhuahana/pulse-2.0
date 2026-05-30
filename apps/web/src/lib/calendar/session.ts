@@ -3,7 +3,7 @@ import { cookies } from "next/headers";
 import { mkdir, readFile, writeFile } from "fs/promises";
 import path from "path";
 
-const SESSION_COOKIE = "pulse_session_id";
+const SESSION_COOKIE = "stilo_session_id";
 const DATA_DIR = path.join(process.cwd(), "data", "sessions");
 
 export async function getOrCreateSessionId(): Promise<string> {
