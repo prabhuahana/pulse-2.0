@@ -1,4 +1,4 @@
-# Pulse
+# Stilo
 
 Calming productivity app — tasks, smart sections, focus timer, themes.
 
@@ -31,7 +31,7 @@ If `command not found: npm`, install Node.js from nodejs.org, then try again.
 | `Cannot find module` | Run `npm install` inside `apps/web` |
 | Blank white screen | Hard refresh (Cmd+Shift+R) or clear site data for localhost |
 | Port in use | Run `npm run dev -- -p 3001` and open http://localhost:3001 |
-| Stuck on loading spinner | Clear localStorage: DevTools → Application → Local Storage → delete `pulse-storage-v1` |
+| Stuck on loading spinner | Clear localStorage: DevTools → Application → Local Storage → delete `stilo-storage-v1` |
 
 ## From project root (optional)
 
@@ -62,4 +62,5 @@ npm run dev
 
 ## Docs
 
-- [docs/PULSE_BLUEPRINT.md](docs/PULSE_BLUEPRINT.md) — full product spec
+- [docs/STILO_BLUEPRINT.md](docs/STILO_BLUEPRINT.md) — full product spec
+# pulse-3.0
